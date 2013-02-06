@@ -69,4 +69,33 @@ class sshclient(object):
         except paramiko.AuthenticationException:
             raise paramiko.AuthenticationException()
 
+    def open_shell(self):
+        """ open a shell without transport, don't call set_transport before """
+        if self.chan is None:
+            self.chan = self.client.invoke_shell()
+            return self.chan
+        else:
+            self.chan.get_pty()
+            return self.chan.invoke_shell()
+        return False
+    
+    # close function
+    def close(self):
+        """ close ssh connection """
+        if self.chan is None:
+            self.client.close()
+        else:
+            self.chan.close()
+
+    # write functions
+    def write(self, cmd, read=True):
+        """ send data into a shell and append a newline """
+        if self.chan.send_ready():
+            byte = self.chan.send(cmd+'\n')
+            time.sleep(3)
+            if read:
+                return self.chan.recv(byte)
+        return 'toto'
+
+    # read channel functions
 
