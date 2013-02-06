@@ -1,9 +1,0 @@
-
-
-#default:
-#    username: <value>
-#    password: <value>
-
-default:
-    username: admin
-    password: admin
