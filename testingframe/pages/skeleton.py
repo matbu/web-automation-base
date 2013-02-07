@@ -25,14 +25,12 @@ sys.path.append(os.getcwd())
 
 from selenium.webdriver.common.by import By
 
-from pages.skeleton import SkeletonPage
+from common.page import Page
 
-_login_url = 'accounts/login/'
+class SkeletonPage(Page):
 
-class LoginPage(SkeletonPage):
+    _page_title_locator = (By.ID, 'page-title')
 
-    _page_title = 'Wallix'
-
-    def go_to_login_page(self):
-        self.selenium.get(self.testsetup.index_url + '/' + _login_url)
-        self.is_the_current_page
+    @property
+    def page_title(self):
+        return self.selenium.find_element(*self._page_title_locator).text
