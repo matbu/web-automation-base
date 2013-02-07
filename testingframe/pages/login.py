@@ -17,8 +17,9 @@
     Copyright (C) mbu 2012
     Author(s): Mathieu BULTEL
 
-    Description : Unit test template for test automation project.
+    Description : Specific test module for Login page.
 """
+
 import os
 import sys
 sys.path.append(os.getcwd())
@@ -30,9 +31,13 @@ from pages.skeleton import SkeletonPage
 _login_url = 'accounts/login/'
 
 class LoginPage(SkeletonPage):
+    """ here specific code for your pages (login for example) """
 
     _page_title = 'Wallix'
 
     def go_to_login_page(self):
         self.selenium.get(self.testsetup.index_url + '/' + _login_url)
         self.is_the_current_page
+
+    
+

@@ -19,6 +19,7 @@
 
     Description : Unit test template for test automation project.
 """
+
 import os
 import sys
 sys.path.append(os.getcwd())

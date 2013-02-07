@@ -17,8 +17,9 @@
     Copyright (C) mbu 2012
     Author(s): Mathieu BULTEL
 
-    Description : Unit test template for test automation project.
+    Description : Standard testing function of web pages.
 """
+
 import os
 import sys
 sys.path.append(os.getcwd())
@@ -31,7 +32,7 @@ from selenium.webdriver.support import expected_conditions
 import unittest
 
 class Page(object):
-    """ Template Testing Web Page """
+    """ Template Testing Web Page, simple checker function """
     
     def __init__(self, testsetup):
         self.testsetup = testsetup

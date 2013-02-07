@@ -17,8 +17,9 @@
     Copyright (C) mbu 2012
     Author(s): Mathieu BULTEL
 
-    Description : Unit test template for test automation project.
+    Description : skeleton pages module.
 """
+
 import os
 import sys
 sys.path.append(os.getcwd())
@@ -28,9 +29,25 @@ from selenium.webdriver.common.by import By
 from common.page import Page
 
 class SkeletonPage(Page):
+    """ skeleton of your web pages under test """
 
     _page_title_locator = (By.ID, 'page-title')
 
     @property
     def page_title(self):
         return self.selenium.find_element(*self._page_title_locator).text
+
+    @property
+    def header_region(self):
+        """ call here specific header check/test function """
+        pass
+
+    @property
+    def footer_region(self):
+        """ call here specific footer check/test function """
+        pass
+
+    @property
+    def specific_region(self):
+        """ call here specific region testing function """
+

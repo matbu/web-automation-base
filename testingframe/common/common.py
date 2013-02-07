@@ -17,8 +17,10 @@
     Copyright (C) mbu 2012
     Author(s): Mathieu BULTEL
 
-    Description : Unit test template for test automation project.
-"""import os
+    Description : Common attributes and functions for this testing framework.
+"""
+
+import os
 import sys
 sys.path.append(os.getcwd())
 
