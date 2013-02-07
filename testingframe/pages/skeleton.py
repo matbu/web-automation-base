@@ -32,6 +32,8 @@ class SkeletonPage(Page):
     """ skeleton of your web pages under test """
 
     _page_title_locator = (By.ID, 'page-title')
+    _value = None
+    _locator = None
 
     @property
     def page_title(self):
@@ -50,4 +52,19 @@ class SkeletonPage(Page):
     @property
     def specific_region(self):
         """ call here specific region testing function """
+        pass
+
+    @property
+    def input_value(self):
+        """ call webdriver function for input value in a text form """
+        input_field = self.selenium.find_element(*self._locator)
+        input_field.clear()
+        input_field.send_keys(self._value)
+
+    @property
+    def click_element(self):
+        """ click on a element """
+        self.selenium.find_element(*self._locator).click()
+
+
 

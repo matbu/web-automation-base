@@ -44,7 +44,7 @@ class test_log_in(unittest.TestCase):
         login_page = LoginPage(self.testSetup)
         login_page.go_to_login_page()
 
-        
+        login_page.log_in()        
 
     def tearDown(self):
         """ Tear Down of your test """
