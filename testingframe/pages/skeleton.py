@@ -1,3 +1,6 @@
+#! /usr/bin/env python
+# -*- coding: UTF-8 -*-
+
 """
     Copyright 2011 Software Freedom Conservancy.
 
@@ -21,17 +24,21 @@
 """
 
 import os
+import time
 import sys
 sys.path.append(os.getcwd())
 
 from selenium.webdriver.common.by import By
 
-from common.page import Page
+from pages.page import Page
+
+from pages.footer import Footer
+from pages.header import Header
 
 class SkeletonPage(Page):
     """ skeleton of your web pages under test """
 
-    _page_title_locator = (By.ID, 'page-title')
+    _page_title_locator = (By.XPATH, '//head/title')
     _value = None
     _locator = None
 
@@ -40,13 +47,16 @@ class SkeletonPage(Page):
         return self.selenium.find_element(*self._page_title_locator).text
 
     @property
-    def header_region(self):
-        """ call here specific header check/test function """
-        pass
+    def header(self):
+        return Header(self.testsetup)
 
     @property
-    def footer_region(self):
-        """ call here specific footer check/test function """
+    def footer(self):
+        return Footer(self.testsetup)
+
+    @property
+    def specific_region(self):
+        """ call here specific region testing function """
         pass
 
     @property
@@ -55,16 +65,23 @@ class SkeletonPage(Page):
         pass
 
     @property
-    def input_value(self):
-        """ call webdriver function for input value in a text form """
-        input_field = self.selenium.find_element(*self._locator)
-        input_field.clear()
-        input_field.send_keys(self._value)
+    def category_region(self):
+        """ call here specific region testing function """
+        pass
 
-    @property
-    def click_element(self):
-        """ click on a element """
-        self.selenium.find_element(*self._locator).click()
+# Remove this old stuff
+#
+#    @property
+#    def input_value(self):
+#        """ call webdriver function for input value in a text form """
+#        input_field = self.selenium.find_element(*self._locator)
+#        input_field.clear()
+#        input_field.send_keys(self._value)
+
+#    @property
+#    def click_element(self):
+#        """ click on a element """
+#        self.selenium.find_element(*self._locator).click()
 
 
 
