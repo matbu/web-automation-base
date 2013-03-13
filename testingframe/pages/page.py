@@ -1,3 +1,5 @@
+#! /usr/bin/env python
+# -*- coding: UTF-8 -*-
 """
     Copyright 2011 Software Freedom Conservancy.
 
@@ -21,36 +23,43 @@
 """
 
 import os
+import time
 import sys
 sys.path.append(os.getcwd())
 
-from selenium import webdriver
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.common.exceptions import NoSuchElementException
 from selenium.webdriver.support import expected_conditions
-
-import unittest
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support import event_firing_webdriver
 
 class Page(object):
     """ Template Testing Web Page, simple checker function """
-    
+    _load_time = 0
+
     def __init__(self, testsetup):
         self.testsetup = testsetup
         self.base_url = testsetup.index_url
-        self.selenium = webdriver.Chrome()
-        self.timeout = testsetup.timeout       
+        self.selenium = testsetup.selenium
+        self.timeout = testsetup.timeout
 
     def is_the_current_page(self):
         if self._page_title:
             WebDriverWait(self.selenium, self.timeout).until(lambda s: s.title)
         return True
 
-
     def is_element_visible(self, locator):
         try:
             return self.selenium.find_element(*locator).is_displayed()
         except:
             return False
+
+    def is_element_clickable(self, locator):
+        try:
+            return expected_conditions.element_to_be_clickable(*locator)
+        except:
+            return False
+
 
     def is_element_present(self, *locator):
         self.selenium.implicitly_wait(0)
@@ -61,4 +70,12 @@ class Page(object):
             return False
         finally:
             self.selenium.implicitly_wait(self.testsetup.default_implicit_wait)
+
+    def wait_search_result_visible(self, *locator):
+        try:
+            WebDriverWait(self.selenium, self.timeout).until(expected_conditions.presence_of_element_located(*locator))
+            return time.time()-self._load_time
+        except:
+            print "Timeout : ", time.time()-self._load_time
+            return False
 
