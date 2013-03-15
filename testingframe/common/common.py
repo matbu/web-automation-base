@@ -1,3 +1,5 @@
+#! /usr/bin/python
+# -*- coding: UTF-8 -*-
 """
     Copyright 2011 Software Freedom Conservancy.
 
@@ -24,10 +26,17 @@ import os
 import sys
 sys.path.append(os.getcwd())
 
-_index_url = "https://10.10.47.81"
-_selenium = "webdriver"
+from selenium import webdriver
+from selenium import selenium
+
+_index_url = "http://my.url.com"
+_driver = "Firefox"
 _navigator = "chrome"
-_timeout = "0"
+_timeout = 5
+_host = "localhost"
+_port = 4444
+_os = "linux"
+_test_env = "local"
 
 class Common(object):
     """ common class for globals variables """
@@ -36,6 +45,7 @@ class Common(object):
         self.index_url = _index_url
         self.navigator = _navigator
         self.timeout = _timeout
-
+        driver = getattr(webdriver, _driver)
+        self.selenium = driver()
 
 
