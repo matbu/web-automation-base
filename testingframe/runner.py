@@ -12,8 +12,9 @@ import os
 import sys
 import common.common
 import unittest
-import tests
+import multiprocessing as proc
 
+import tests
 from utils.data import Data
 
 class Runner(object):
@@ -21,11 +22,15 @@ class Runner(object):
 
     tests = []
     tests_path = "tests/"
+    filename = "test_requirements.yml"
 
-    def __init__(self, filename="test_requirements.yml"):
+    def __init__(self):
+        pass
+
+    def get_requirement_data(self):
         """ call here the utils module for yaml loading """
-        data = Data(filename)
-        self.requirements = data.get_all_value()
+        data = Data(self.filename)
+        return data.get_all_value()
 
     # Test part : 
     def get_all_tests(self):
@@ -59,13 +64,17 @@ class Runner(object):
         return False
 
     # Requirements part:
-    def set_globals(self):
+    def set_globals(self, step_keys):
         """ Set globals variables """
-        self.step_keys = self.requirements.keys()
-        for step in self.step_keys:
-            for value in self.requirements[step]:
-                properties = setattr(common.common, '_'+value, self.requirements[step][value])
-            self.set_suite()
+        self.requirements = self.get_requirement_data()
+        for value in self.requirements[step_keys]:
+            properties = setattr(common.common, '_'+value, self.requirements[step_keys][value])
+        self.set_suite()
+
+def run(step):
+    runner = Runner()
+    runner.get_all_tests()
+    runner.set_globals(step)
 
 if __name__ == '__main__':
 
@@ -73,8 +82,9 @@ if __name__ == '__main__':
     runner = Runner()
     if len(sys.argv) > 1:
         print "TODO : manage test file and test name in command line"
-    # We work with all tests
-    runner.get_all_tests()
-    # Launch with globals setting
-    runner.set_globals()
+
+    # Run on multi processing for parallele tests
+    steps = runner.get_requirement_data()
+    pool = proc.Pool()
+    pool.map(run, steps)
 
